@@ -1,10 +1,14 @@
 import socket
+import auction_server
+import encry_decrypt
+
 
 class AucClient:
 
     def __init__(self):
         self.target_ip = 'localhost'
         self.target_port = 8888
+        self.encryption()
 
     def client_runner(self):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,6 +26,12 @@ class AucClient:
             client.close()
         else:
             print("Invalid option!")
+
+    def encryption(self):
+        userKey: str = input("Enter encryption for the whole process: ")
+        encry = encry_decrypt.A3Encryption()
+        encrypted_data = encry.start_encryption("NationalCyberCity", userKey)
+        print(encrypted_data)
 
 
 if __name__ == '__main__':
