@@ -8,7 +8,7 @@ class A3Encryption:
         self.randomKey = random.randint(1, 65536)
 
     def start_encryption(self, text, key):
-
+        self.encrypted_data = ''
         totalKey = 0
         for i in key:
             totalKey += ord(i)
@@ -18,11 +18,9 @@ class A3Encryption:
         for i in text:
             encrypted_ord = ord(i) ^ totalKey
             doubleEncrypted_ord = encrypted_ord ^ self.randomKey
-            print(doubleEncrypted_ord)
 
             self.encrypted_data += str(hex(doubleEncrypted_ord)) + 'X'
 
-        print(self.encrypted_data)
         self.encrypted_data += str(hex(totalKey)) + 'X' + str(hex(self.randomKey))
         return self.encrypted_data
 
@@ -34,14 +32,17 @@ class A3Decryption:
         self.decrypted_data: str = ''
 
     def start_decryption(self, encrypted_data: str):
+        self.decrypted_data = ''
         self.dataList = encrypted_data.split('X')
         keyList = self.dataList[-2:]
         print(self.dataList, "key ", keyList)
         key = int(keyList[0], 16)
-        rkey = int(keyList[1], 16)
+        rKey = int(keyList[1], 16)
+        print("user key: ", key, "\nr key: ", rKey)
 
-        for i in range(len(self.dataList)-2):
-            dDecrypt = int(self.dataList[i], 16) ^ rkey
+        print(self.dataList)
+        for i in range(len(self.dataList) - 2):
+            dDecrypt = int(self.dataList[i], 16) ^ rKey
             decrypted_int = dDecrypt ^ key
             self.decrypted_data += chr(decrypted_int)
 
